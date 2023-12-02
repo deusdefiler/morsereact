@@ -1,71 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<title>Morse Machine</title>
-  	  	<meta charset="UTF-8">
-  	  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<script type="application/javascript" src="https://unpkg.com/react@18.0.0/umd/react.production.min.js"></script>
-  	  	<script type="application/javascript" src="https://unpkg.com/react-dom@18.0.0/umd/react-dom.production.min.js"></script>
-  	  	<script type="application/javascript" src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
-		<style>.dot { 
-			height: 25px;
-			width: 25px;
-			background-color: #ccc;
-			border-radius: 50%;
-			display: inline-block;
-		}</style>
-	</head>
-	<body style="background-color: #f7f7f7">
-		<H1 style="color:blue; text-align: center">Morse Machine</H1>
-	<div id="root"></div>
-		<script type="text/babel">
-					const sound = new Audio('beep.mp3');
-						sound.loop = true;
-						soundRefresh.current = sound;
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Morse Machine</title>
+	<script type="application/javascript" src="https://unpkg.com/react@18.0.0/umd/react.production.min.js"></script>
+  	<script type="application/javascript" src="https://unpkg.com/react-dom@18.0.0/umd/react-dom.production.min.js"></script>
+ 	<script type="application/javascript" src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+  </head>
+  <body style="background-color: #f7f7f7">
+	<H1 style="color:blue; text-align: center">Morse Machine</H1>
+	<div id="lightOff" style="border: solid black 3px; border-radius: 50%; background-color: #f7f7f7; height: 25px; width: 25px;"></div>
+    <div id="root"></div>
+
+    <script type="text/babel">
 			class Morse extends React.Component {
-				state = {running: false} 
 
-				runClick = () => {
-					this.setState(
-						state => {
-							sound.play();
-							sound.pause();
-						}
-					)
-				}
-				runHold = () => {
-					this.setState(
+				lightswitch = {on: false}
 
-					)
-				}
-				
-				render() {
-					const {running} = this.state
-					
-					const labelStyle = {
-						fontSize:'100px', 
-						display:'block'
+			    constructor(props) {
+			        super(props);
+			        this.aud = new Audio('beep.mp3');
+			        this.aud.loop = true;
+			    }
+			    state = {running: false};
+
+			    runClick = () => {
+			        const {running} = this.state;
+					const {on} = this.lightswitch;
+			        if (!running) {
+			            this.aud.play();
+						document.getElementById("lightOff").style.backgroundColor = "red";
+			        } else {
+			            this.aud.pause();
+			            this.aud.currentTime = 0;
+						document.getElementById("lightOff").style.backgroundColor = "#f7f7f7";
+			        }
+			        this.setState((state) => ({
+			            running: !state.running,
+			        }));
+			    };
+
+			    runHold = () => {
+					const {running} = this.state;
+					const {on} = this.lightswitch;
+					if (!running) {
+						this.aud.play();
+						document.getElementById("lightOff").style.backgroundColor = "red";
+					} else {
+						this.aud.pause();
+						this.aud.currentTime = 0;
+						document.getElementById("lightOff").style.backgroundColor = "#f7f7f7";
 					}
-				
-					const buttonStyle = {
-						border: '1px solid #ccc',
-						background: '#fff',
-						fontSize: '30px',
-						padding: 15,
-						margin: 5,
-						width: 200
-					}
-					return (
-						<div style={{textAlign: 'center'}}>
-							<label style={labelStyle}>Click for dih, hold for dah</label>
-							<span id='dot'></span>
-							<button onClick ={this.runClick} onMouseDown={this.runHold} style={buttonStyle}>{running?'Hold':'Click'}</button>
-						</div>
-					)
-				}
+					this.setState((state) => ({
+			            running: !state.running,
+			        }));
+			    };
+
+			    render() {
+			        const {running} = this.state;
+					const {on} = this.lightswitch;
+
+			        const labelStyle = {
+			            fontSize: '100px',
+			            display: 'block',
+			        };
+
+			        const buttonStyle = {
+			            border: '1px solid #ccc',
+			            background: '#fff',
+			            fontSize: '30px',
+			            padding: 15,
+			            margin: 5,
+			            width: 200,
+			        };
+
+			        return (
+			            <div style={{ textAlign: 'center' }}>
+			                <label style={labelStyle}>Click for dih, hold for dah</label>
+			                <button onClick={this.runClick} onMouseDown={this.runHold} style={buttonStyle}>
+			                    {running?'Hold':'Click'}
+			                </button>
+			            </div>
+			        );
+			    }
 			}
-			const element=<Morse />
-			ReactDOM.render(element, document.getElementById("root"));	
+
+			ReactDOM.render(<Morse />, document.getElementById('root'));
 		</script>
-	</body>
+  
+  </body>
 </html>
