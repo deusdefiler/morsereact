@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Morse Machine</title>
+  	  	<meta charset="UTF-8">
+  	  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script type="application/javascript" src="https://unpkg.com/react@18.0.0/umd/react.production.min.js"></script>
+  	  	<script type="application/javascript" src="https://unpkg.com/react-dom@18.0.0/umd/react-dom.production.min.js"></script>
+  	  	<script type="application/javascript" src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+	</head>
+	<body style="background-color: #CCCCCC">
+		<H1 style="color:blue; text-align: center">Morse Machine</H1>
+	<div id="root"></div>
+		<script type="text/babel">
+			class Morse extends React.Component {
+				runClick = () => {
+
+				}
+
+				runHold = () => {
+
+				}
+				render() {
+					const {running} = this.state
+					
+					const labelStyle = {
+						fontSize:'100px', 
+						display:'block'
+					}
+				
+					const buttonStyle = {
+						border: '1px solid #ccc',
+						background: '#fff',
+						fontSize: '30px',
+						padding: 15,
+						margin: 5,
+						width: 200
+					}
+					return (
+						<div style={{textAlign: 'center'}}>
+							<label style={labelStyle}>Click for dih, hold for dah</label>
+							<button onClick={this.runClick} onMouseDown={this.runHold} style={buttonStyle}>{running?'Hold':'Click'}</button>
+						</div>
+					) 
+				}
+			}
+
+			const element=<Morse />
+			ReactDOM.render(element, document.getElementById("root"));	
+		</script>
+	</body>
+</html>
